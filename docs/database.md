@@ -97,6 +97,20 @@ Fields:
 - notes: optional context
 - createdAt: log creation timestamp
 
+## SkinReaction
+
+Represents a skin reaction reported by a user after product usage.
+
+Fields:
+- id: unique reaction identifier
+- userId: user who experienced the reaction
+- usageLogId: related product usage
+- reactionType: type of reaction (e.g. irritation, breakout)
+- severity: reaction intensity
+- reportedAt: time reaction was noticed
+- notes: optional user notes
+- createdAt: record creation timestamp
+
 ## Status
 
 In design
