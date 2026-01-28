@@ -22,6 +22,21 @@ This document describes the relational database schema for the Skincare Tracker 
 - UsageLogs record routine execution over time
 - SkinReactions are analyzed against recent UsageLogs
 
+## User Entitiy
+
+Represents an authenticated user of the system.
+
+Fields:
+- id: unique user identifier
+- email: login identifier (unique)
+- passwordHash: hashed password
+- name: display name
+- dateOfBirth: used to derive age
+- skinType: user's skin classification
+- createdAt: account creation timestamp
+- updatedAt: last update timestamp
+
+
 ## Status
 
 In design
