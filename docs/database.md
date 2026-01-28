@@ -61,6 +61,17 @@ Fields:
 - notes
 - createdAt
 
+## Routine
+
+Represents a skincare routine created by a user.
+
+Fields:
+- id: unique routine identifier
+- userId: owner of the routine
+- name: routine name
+- routineTime: AM or PM
+- createdAt: creation timestamp
+
 ## Status
 
 In design
