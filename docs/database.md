@@ -22,7 +22,7 @@ This document describes the relational database schema for the Skincare Tracker 
 - UsageLogs record routine execution over time
 - SkinReactions are analyzed against recent UsageLogs
 
-## User Entitiy
+## User
 
 Represents an authenticated user of the system.
 
@@ -36,7 +36,7 @@ Fields:
 - createdAt: account creation timestamp
 - updatedAt: last update timestamp
 
-## Product
+## GlobalProduct
 
 Represents a skincare product available in the system.
 
@@ -83,6 +83,19 @@ Fields:
 - stepOrder: position in routine
 - instructions: optional usage notes
 - createdAt: creation timestamp
+
+## UsageLog
+
+Represents a single instance of product usage by a user.
+
+Fields:
+- id: unique log identifier
+- userId: user who performed the usage
+- userProductId: product used
+- routineId: associated routine (optional)
+- usedAt: timestamp of usage
+- notes: optional context
+- createdAt: log creation timestamp
 
 ## Status
 
