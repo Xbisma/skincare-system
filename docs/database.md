@@ -36,6 +36,30 @@ Fields:
 - createdAt: account creation timestamp
 - updatedAt: last update timestamp
 
+## Product
+
+Represents a skincare product available in the system.
+
+Fields:
+- id
+- name
+- brand
+- category
+- createdAt
+
+## UserProduct
+
+Represents a product owned and used by a specific user.
+
+Fields:
+- id
+- userId
+- productId
+- openDate
+- expiryDate
+- paoMonths
+- notes
+- createdAt
 
 ## Status
 
