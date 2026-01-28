@@ -72,6 +72,18 @@ Fields:
 - routineTime: AM or PM
 - createdAt: creation timestamp
 
+## RoutineStep
+
+Represents a single step within a skincare routine.
+
+Fields:
+- id: unique step identifier
+- routineId: parent routine
+- userProductId: product used in this step
+- stepOrder: position in routine
+- instructions: optional usage notes
+- createdAt: creation timestamp
+
 ## Status
 
 In design
