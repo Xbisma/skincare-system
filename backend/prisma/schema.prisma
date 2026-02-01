@@ -4,6 +4,43 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+enum SkinType {
+  OILY
+  DRY
+  COMBINATION
+  SENSITITVE
+  NORMAL
+}
+
+enum RoutineTime {
+  AM
+  PM
+}
+
+enum ReactionType {
+  IRRITATION
+  REDNESS
+  BREAKOUT
+  DRYNESS
+  STINIGING
+}
+
+model User {
+  id           String @id @default(uuid())
+  email        String @unique
+  passwordHash String
+  name         String?
+  dateOfBirth  DateTime?
+  skinType     SkinType?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  userProducts  UserProduct[]
+  routines      Routine[]
+  usageLogs     usageLog[]
+  skinReactions skinReaction[]
+}
+
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
