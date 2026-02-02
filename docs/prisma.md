@@ -30,3 +30,16 @@ Represents a single instance of a product being used by a user.
 
 ## SkinReaction
 Represents a skin reaction linked to a specific product usage.
+
+# Prisma Migrations
+
+- Initial migration created with `npx prisma migrate dev --name init`
+- Tables generated according to design:
+  - User
+  - Product
+  - UserProduct
+  - Routine
+  - RoutineStep
+  - UsageLog
+  - SkinReaction
+- Prisma Studio can be used to explore & test the schema interactively
