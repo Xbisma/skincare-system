@@ -111,6 +111,12 @@ Fields:
 - notes: optional user notes
 - createdAt: record creation timestamp
 
+## Initial Migration
+
+- Created core entities (User, Product, UserProduct, Routine, RoutineStep, UsageLog, SkinReaction)
+- Enums for skin type, routine time, reaction type
+- Indexed user-centric queries
+
 ## Status
 
 In design

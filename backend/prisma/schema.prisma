@@ -26,14 +26,14 @@ enum ReactionType {
 }
 
 model User {
-  id           String @id @default(uuid())
-  email        String @unique
+  id           String    @id @default(uuid())
+  email        String    @unique
   passwordHash String
   name         String?
   dateOfBirth  DateTime?
   skinType     SkinType?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   userProducts  UserProduct[]
   routines      Routine[]
@@ -42,7 +42,7 @@ model User {
 }
 
 model Product {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
   brand     String
   category  String?
@@ -54,34 +54,34 @@ model Product {
 }
 
 model UserProduct {
-  id           String @id @default(uuid())
-  userId       String
-  productId    String
-  openDate     DateTime?
-  expiryDate   DateTime?
-  paoMonths    Int?
-  notes        String?
-  createdAt    DateTime @default(now())
+  id         String    @id @default(uuid())
+  userId     String
+  productId  String
+  openDate   DateTime?
+  expiryDate DateTime?
+  paoMonths  Int?
+  notes      String?
+  createdAt  DateTime  @default(now())
 
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product      Product   @relation(fields: [productId], references: [id], onDelete: Restrict)
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product      Product       @relation(fields: [productId], references: [id], onDelete: Restrict)
   routineSteps RoutineStep[]
   usageLogs    UsageLog[]
 
+  @@unique([userId, productId, openDate])
   @@index([userId])
   @@index([productId])
-  @@unique([userId, productId, openDate])
 }
 
 model Routine {
-  id           String @id @default(uuid())
-  userId       String
-  name         String
-  routineTime  RoutineTime
-  createdAt    DateTime @default(now())
+  id          String      @id @default(uuid())
+  userId      String
+  name        String
+  routineTime RoutineTime
+  createdAt   DateTime    @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  steps RoutineStep[]
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  steps     RoutineStep[]
   usageLogs UsageLog[]
 
   @@unique([userId, name])
@@ -89,15 +89,15 @@ model Routine {
 }
 
 model RoutineStep {
-  id             String @id @default(uuid())
-  routineId      String
-  userProductId  String
-  stepOrder      Int
-  instructions   String?
-  createdAt      DateTime @default(now())
+  id            String   @id @default(uuid())
+  routineId     String
+  userProductId String
+  stepOrder     Int
+  instructions  String?
+  createdAt     DateTime @default(now())
 
-  routine     Routine      @relation(fields: [routineId], references: [id], onDelete: Cascade)
-  userProduct UserProduct  @relation(fields: [userProductId], references: [id], onDelete: Restrict)
+  routine     Routine     @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  userProduct UserProduct @relation(fields: [userProductId], references: [id], onDelete: Restrict)
 
   @@unique([routineId, stepOrder])
   @@index([routineId])
@@ -105,18 +105,18 @@ model RoutineStep {
 }
 
 model UsageLog {
-  id             String @id @default(uuid())
-  userId         String
-  userProductId  String
-  routineId      String?
-  usedAt         DateTime @default(now())
-  notes          String?
-  createdAt      DateTime @default(now())
+  id            String   @id @default(uuid())
+  userId        String
+  userProductId String
+  routineId     String?
+  usedAt        DateTime @default(now())
+  notes         String?
+  createdAt     DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userProduct UserProduct @relation(fields: [userProductId], references: [id], onDelete: Restrict)
-  routine Routine? @relation(fields: [routineId], references: [id], onDelete: SetNull)
-  reactions SkinReaction[]
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userProduct UserProduct    @relation(fields: [userProductId], references: [id], onDelete: Restrict)
+  routine     Routine?       @relation(fields: [routineId], references: [id], onDelete: SetNull)
+  reactions   SkinReaction[]
 
   @@index([userId])
   @@index([userProductId])
@@ -124,17 +124,20 @@ model UsageLog {
 }
 
 model SkinReaction {
-  id             String @id @default(uuid())
-  usageLogId     String
+  id         String       @id @default(uuid())
+  userId     String
+  usageLogId String
   reaction   ReactionType
-  severity       Int
-  reportedAt     DateTime @default(now())
-  notes          String?
-  createdAt      DateTime @default(now())
+  severity   Int
+  reportedAt DateTime     @default(now())
+  notes      String?
+  createdAt  DateTime     @default(now())
 
-  usageLog    UsageLog @relation(fields: [usageLogId], references: [id], onDelete: Cascade)
+  usageLog UsageLog @relation(fields: [usageLogId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([usageLogId])
+  @@index([userId])
 }
 
 generator client {
