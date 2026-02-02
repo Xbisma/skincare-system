@@ -8,7 +8,7 @@ enum SkinType {
   OILY
   DRY
   COMBINATION
-  SENSITITVE
+  SENSITIVE
   NORMAL
 }
 
@@ -22,7 +22,7 @@ enum ReactionType {
   REDNESS
   BREAKOUT
   DRYNESS
-  STINIGING
+  STINGING
 }
 
 model User {
@@ -37,11 +37,11 @@ model User {
 
   userProducts  UserProduct[]
   routines      Routine[]
-  usageLogs     usageLog[]
-  skinReactions skinReaction[]
+  usageLogs     UsageLog[]
+  skinReactions SkinReaction[]
 }
 
-model Prduct {
+model Product {
   id        String @id @default(uuid())
   name      String
   brand     String
@@ -89,23 +89,56 @@ model Routine {
 }
 
 model RoutineStep {
-  id           String @id @default(uuid())
-  routineId    String
+  id             String @id @default(uuid())
+  routineId      String
   userProductId  String
-  stepOrder    Int
-  instructions String?
-  createdAt    DateTime @default(now())
+  stepOrder      Int
+  instructions   String?
+  createdAt      DateTime @default(now())
 
-  routine Routine @relation(fields: [routineId], references[id], onDelete: Cascade)
-  userProduct UserProduct @relation(fields: [userProductId], references[id], onDelete: Restrict)
+  routine     Routine      @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  userProduct UserProduct  @relation(fields: [userProductId], references: [id], onDelete: Restrict)
 
   @@unique([routineId, stepOrder])
   @@index([routineId])
   @@index([userProductId])
 }
 
+model UsageLog {
+  id             String @id @default(uuid())
+  userId         String
+  userProductId  String
+  routineId      String?
+  usedAt         DateTime @default(now())
+  notes          String?
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userProduct UserProduct @relation(fields: [userProductId], references: [id], onDelete: Restrict)
+  routine Routine? @relation(fields: [routineId], references: [id], onDelete: SetNull)
+  reactions SkinReaction[]
+
+  @@index([userId])
+  @@index([userProductId])
+  @@index([routineId])
+}
+
+model SkinReaction {
+  id             String @id @default(uuid())
+  usageLogId     String
+  reaction   ReactionType
+  severity       Int
+  reportedAt     DateTime @default(now())
+  notes          String?
+  createdAt      DateTime @default(now())
+
+  usageLog    UsageLog @relation(fields: [usageLogId], references: [id], onDelete: Cascade)
+
+  @@index([usageLogId])
+}
+
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 

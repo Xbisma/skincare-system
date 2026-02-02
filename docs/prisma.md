@@ -24,3 +24,9 @@ Represents a user-defined skincare routine (AM or PM).
 
 ## RoutineStep
 Represents an ordered step within a routine, linked to a specific user-owned product.
+
+## UsageLog
+Represents a single instance of a product being used by a user.
+
+## SkinReaction
+Represents a skin reaction linked to a specific product usage.
