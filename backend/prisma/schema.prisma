@@ -42,10 +42,10 @@ model User {
 }
 
 model Prduct {
-  id String @id @default(uuid())
-  name String
-  brand String
-  category String?
+  id        String @id @default(uuid())
+  name      String
+  brand     String
+  category  String?
   createdAt DateTime @default(now())
 
   userProducts UserProduct[]
@@ -54,23 +54,54 @@ model Prduct {
 }
 
 model UserProduct {
-  id String @id @default(uuid())
-  userId String
-  productId String
-  openDate DateTime?
-  expiryDate DateTime?
-  paoMonths Int?
-  notes String?
-  createdAt DateTime @default(now())
+  id           String @id @default(uuid())
+  userId       String
+  productId    String
+  openDate     DateTime?
+  expiryDate   DateTime?
+  paoMonths    Int?
+  notes        String?
+  createdAt    DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product      Product   @relation(fields: [productId], references: [id], onDelete: Restrict)
   routineSteps RoutineStep[]
-  usageLogs UsageLog[]
+  usageLogs    UsageLog[]
 
   @@index([userId])
   @@index([productId])
   @@unique([userId, productId, openDate])
+}
+
+model Routine {
+  id           String @id @default(uuid())
+  userId       String
+  name         String
+  routineTime  RoutineTime
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  steps RoutineStep[]
+  usageLogs UsageLog[]
+
+  @@unique([userId, name])
+  @@index([userId])
+}
+
+model RoutineStep {
+  id           String @id @default(uuid())
+  routineId    String
+  userProductId  String
+  stepOrder    Int
+  instructions String?
+  createdAt    DateTime @default(now())
+
+  routine Routine @relation(fields: [routineId], references[id], onDelete: Cascade)
+  userProduct UserProduct @relation(fields: [userProductId], references[id], onDelete: Restrict)
+
+  @@unique([routineId, stepOrder])
+  @@index([routineId])
+  @@index([userProductId])
 }
 
 generator client {

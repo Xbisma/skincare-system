@@ -18,3 +18,9 @@ Global product definition shared across users.
 
 Represents a specific product instance owned by a user.
 Tracks opening, expiry, and usage context.
+
+## Routine
+Represents a user-defined skincare routine (AM or PM).
+
+## RoutineStep
+Represents an ordered step within a routine, linked to a specific user-owned product.
