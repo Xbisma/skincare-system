@@ -41,6 +41,38 @@ model User {
   skinReactions skinReaction[]
 }
 
+model Prduct {
+  id String @id @default(uuid())
+  name String
+  brand String
+  category String?
+  createdAt DateTime @default(now())
+
+  userProducts UserProduct[]
+
+  @@unique([name, brand])
+}
+
+model UserProduct {
+  id String @id @default(uuid())
+  userId String
+  productId String
+  openDate DateTime?
+  expiryDate DateTime?
+  paoMonths Int?
+  notes String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+  routineSteps RoutineStep[]
+  usageLogs UsageLog[]
+
+  @@index([userId])
+  @@index([productId])
+  @@unique([userId, productId, openDate])
+}
+
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
