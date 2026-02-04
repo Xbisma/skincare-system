@@ -111,6 +111,17 @@ Fields:
 - notes: optional user notes
 - createdAt: record creation timestamp
 
+## Seed Data
+
+Seed script simulates real app usage:
+- user creation
+- product ownership
+- routine composition
+- usage logging
+- reaction tracking
+
+Used to validate schema relationships before API development.
+
 ## Status
 
 In design

@@ -1,15 +1,17 @@
+require('dotenv').config()
+
 const {PrismaClient} = require('@prisma/client')
 const bcrypt = require('bcrypt')
 
 const prisma = new PrismaClient()
 
 async function main() {
-    const hashedPassowrd = await bcrypt.hash('password1233', 10)
+    const hashedPassoword = await bcrypt.hash('password1233', 10)
 
     const user = await prisma.user.create({
         data: {
             email: 'test@example.com',
-            passwordHash: hashedPassowrd,
+            passwordHash: hashedPassoword,
             name: 'Test User',
             skinType: 'OILY'
         }
@@ -32,21 +34,25 @@ async function main() {
     })
 
     const userCleanser = await prisma.userProduct.create({
-        userId: user.id,
-        productId: cleanser.id,
-        openDate: new Date('2025-01-01'),
-        expiryDate: new Date('2025-06-01'),
-        paoMonths: 6,
-        notes: 'Great for daily use'
+        data: {
+            userId: user.id,
+            productId: cleanser.id,
+            openDate: new Date('2025-01-01'),
+            expiryDate: new Date('2025-06-01'),
+            paoMonths: 6,
+            notes: 'Great for daily use'
+        }
     })
 
     const userExfoliant = await prisma.userProduct.create({
-        userId: user.id,
-        productId: exfoliant.id,
-        openDate: new Date('2025-01-10'),
-        expiryDate: new Date('2025-04-10'),
-        paoMonths: 12,
-        notes: 'Use twice a week'
+        data: {
+            userId: user.id,
+            productId: exfoliant.id,
+            openDate: new Date('2025-01-10'),
+            expiryDate: new Date('2025-04-10'),
+            paoMonths: 12,
+            notes: 'Use twice a week'
+        }
     })
 
     const routine = await prisma.routine.create({
@@ -74,30 +80,30 @@ async function main() {
         ]
     })
 
-    const usage = await prisma.usageLog.create({
-        data: [
-            {
+    const usageCleanser = await prisma.usageLog.create({
+        data: {
                 userId: user.id,
                 userProductId: userCleanser.id,
                 routineId: routine.id,
                 usedAt: new Date(),
                 notes: 'Left skin feeling fresh'
-            },
-            {
-                userId: user.id,
-                userProductId: userExfoliant.id,
-                routineId: routine.id,
-                usedAt: new Date(),
-                notes: 'Skin felt smooth afterward'
             }
-        ]
+    })
+    const usageExfoliant = await prisma.usageLog.create({
+        data: {
+            userId: user.id,
+            userProductId: userExfoliant.id,
+            routineId: routine.id,
+            usedAt: new Date(),
+            notes: 'Skin felt smooth afterward'
+            }
     })
 
     await prisma.skinReaction.create({
         data: {
             userId: user.id,
-            usageLogId: usage.id,
-            reactionType: 'IRRITATION',
+            usageLogId: usageCleanser.id,
+            reaction: 'IRRITATION',
             severity: 3,
             notes: 'Mild burning sensation',
             reportedAt: new Date()
